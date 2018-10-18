@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: gson-2.6.2.jar nimsoft-sdk-2.9.17.jar snmp4j-2.6.2.jar
+Main-Class: 
+

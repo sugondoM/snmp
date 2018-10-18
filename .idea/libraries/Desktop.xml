@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Desktop">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/gson-2.6.2.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/nimsoft-sdk-2.9.17.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/snmp4j-2.6.2.jar!/" />
+      <root url="file://$USER_HOME$/Desktop" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/Desktop" recursive="false" />
+  </library>
+</component>
