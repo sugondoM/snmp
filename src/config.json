@@ -1,17 +1,50 @@
 {
 	"ipList" : [
-		"10.251.36.234"
+		"10.251.36.234",
+		"10.2.124.203",
+		"10.2.124.204",
+		"10.251.5.24",
+		"10.251.5.25"
+
 	],
 	"ipOidMap" : {
 		"10.251.36.234" : [
-				"1.3.6.1.4.1.3375.2.2.5.6.2.1.1",
-				"1.3.6.1.4.1.3375.2.2.5.6.2.1.4",
-				"1.3.6.1.4.1.3375.2.2.5.6.2.1.5",
-				"1.3.6.1.4.1.3375.2.2.5.6.2.1.6"
-			]
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.1",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.4",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.5",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.6"
+		],
+		"10.2.124.203" : [
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.1",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.4",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.5",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.6"
+		],
+		"10.2.124.204" : [
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.1",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.4",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.5",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.6"
+		],
+		"10.251.5.24" : [
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.1",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.4",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.5",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.6"
+		],
+		"10.251.5.25" : [
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.1",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.4",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.5",
+			"1.3.6.1.4.1.3375.2.2.5.6.2.1.6"
+		]
 	},
 	"ipHostnameMap" : {
-		"10.251.36.234" : "lb-dc-tbs-vip01.telkomsel.co.id"
+		"10.251.36.234" : "lb-dc-tbs-vip01.telkomsel.co.id",
+		"10.2.124.203" : "lb-dc-brn-webmail1.telkomsel.co.id",
+		"10.2.124.204" : "lb-dc-brn-webmail2.telkomsel.co.id",
+		"10.251.5.24" : "lb-dc-tbs-nbp01.telkomsel.co.id",
+		"10.251.5.25" : "lb-dc-tbs-nbp02.telkomsel.co.id"
 	},
 	"oidDetailMap" : {
 		"1.3.6.1.4.1.3375.2.2.5.6.2.1.1" : "ltmPoolMbrStatusPoolName",
@@ -22,16 +55,52 @@
 	"ipConcatMetricMap" : {
 		"10.251.36.234" : [
 			"ltmPoolMbrStatusPoolName"
+		],
+		"10.2.124.203" : [
+			"ltmPoolMbrStatusPoolName"
+		],
+		"10.2.124.204" : [
+			"ltmPoolMbrStatusPoolName"
+		],
+		"10.251.5.24" : [
+			"ltmPoolMbrStatusPoolName"
+		],
+		"10.251.5.25" : [
+			"ltmPoolMbrStatusPoolName"
 		]
 	},
 	"ipSourceMap" : {
-		"10.251.36.234" : "hostname"
+		"10.251.36.234" : "hostname",
+		"10.2.124.203" : "hostname",
+		"10.2.124.204" : "hostname",
+		"10.251.5.24" : "hostname",
+		"10.251.5.25" : "hostname"
 	},
 	"ipTargetMap" : {
-		"10.251.36.234" : "ltmPoolMbrStatusPoolName"
+		"10.251.36.234" : "ltmPoolMbrStatusPoolName",
+		"10.2.124.203" : "ltmPoolMbrStatusPoolName",
+		"10.2.124.204" : "ltmPoolMbrStatusPoolName",
+		"10.251.5.24" : "ltmPoolMbrStatusPoolName",
+		"10.251.5.25" : "ltmPoolMbrStatusPoolName"
 	},
 	"ipValuesMap" : {
 		"10.251.36.234" : [
+			"ltmPoolMbrStatusAvailState",
+			"ltmPoolMbrStatusEnabledState"
+		],
+		"10.2.124.203" : [
+			"ltmPoolMbrStatusAvailState",
+			"ltmPoolMbrStatusEnabledState"
+		],
+		"10.2.124.204" : [
+			"ltmPoolMbrStatusAvailState",
+			"ltmPoolMbrStatusEnabledState"
+		],
+		"10.251.5.24" : [
+			"ltmPoolMbrStatusAvailState",
+			"ltmPoolMbrStatusEnabledState"
+		],
+		"10.251.5.25" : [
 			"ltmPoolMbrStatusAvailState",
 			"ltmPoolMbrStatusEnabledState"
 		]

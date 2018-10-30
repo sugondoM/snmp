@@ -23,13 +23,14 @@ import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
-import com.nimsoft.nimbus.NimLog;
-import com.nimsoft.nimbus.NimQoS;
-import com.nimsoft.nimbus.NimUserLogin;
-import com.nimsoft.nimbus.ci.ConfigurationItem;
-import com.nimsoft.nimbus.ci.RemoteDevice;
+//import com.nimsoft.nimbus.NimLog;
+//import com.nimsoft.nimbus.NimQoS;
+//import com.nimsoft.nimbus.NimUserLogin;
+//import com.nimsoft.nimbus.ci.ConfigurationItem;
+//import com.nimsoft.nimbus.ci.RemoteDevice;
 
 import model.InitConfiguration;
+import sun.rmi.runtime.NewThreadAction;
 
 public class SimpleTableViews {
 	private static final int DEFAULT_VERSION = SnmpConstants.version1;
@@ -45,7 +46,6 @@ public class SimpleTableViews {
 	public static final String SNMP_TIMEOUT = "SNMP_TIMEOUT";
 	public static final String SNMP_RETRY = "SNMP_RETRY";
 	public static final String SNMP_COMMUNITY= "SNMP_COMMUNITY";
-	static NimLog logger = NimLog.getLogger(SimpleTableViews.class);
 
 	/***
 	 * @param target
@@ -53,16 +53,16 @@ public class SimpleTableViews {
 	 * @throws Exception
 	 */	
 	
-	public Boolean insertDb(CommunityTarget target, String ipAddress, String hostname, List<String> oidList, 
+	public List<String> insertDb(CommunityTarget target, String ipAddress, String hostname, List<String> oidList,
 			Map<String, String> oidDetailMap, List<String> concatList, String sourceNimsoft, String targetNimsoft,
 			List<String> valuesToSave) throws Exception {
-		Boolean result = false;
+		List<String> result = new ArrayList<String>();
 		List<String> instances = selectInstance(target,oidList.get(0));
 		List<String> oidDetailList = new ArrayList<>();
 		Boolean onceTimes = true;
 		TransportMapping<? extends Address> transport = new DefaultUdpTransportMapping();
 		Snmp snmp = new Snmp(transport);
-		NimUserLogin.login("agit1", "agitapm1234");
+		//NimUserLogin.login("agit1", "agitapm1234");
 		try {
 			snmp.listen();
 			Map<String, String> value2save = new HashMap<String, String>();
@@ -98,7 +98,7 @@ public class SimpleTableViews {
 					for (int k = 0; k < reSize; k++) {
 						VariableBinding vb = response.get(k);
 						String value = vb.getVariable().toString();
-						System.out.println(concatList.contains(oidDetailList.get(k)));
+						//System.out.println(concatList.contains(oidDetailList.get(k)));
 						if (concatList.contains(oidDetailList.get(k))) {
 							if (tempMetricName == "") {
 								tempMetricName = oidDetailList.get(k);
@@ -127,52 +127,55 @@ public class SimpleTableViews {
 							tempMetricValue = tempMetricValue.replaceAll("/", ".");
 							
 							if (k == 0 || prevConcatIndex == 0) {
-								writer.write("ipAddress:"+ipAddress+"|hostname:"+hostname+"|");
-								writer.write(tempMetricName + ":" + tempMetricValue + "|");
+								//writer.write("ipAddress:"+ipAddress+"|hostname:"+hostname+"|");
+								//writer.write(tempMetricName + ":" + tempMetricValue + "|");
 								value2save.put("ipAddress", ipAddress);
 								value2save.put("hostname", hostname);
 								value2save.put(tempMetricName, tempMetricValue);
 								
 							} else if(k == reSize-1) {
-								writer.write(tempMetricName + ":" + tempMetricValue + ";\n");
+								//riter.write(tempMetricName + ":" + tempMetricValue + ";\n");
 								value2save.put(tempMetricName, tempMetricValue);
 							} else {
-								writer.write(tempMetricName + ":" + tempMetricValue + "|");
+								//writer.write(tempMetricName + ":" + tempMetricValue + "|");
 								value2save.put(tempMetricName, tempMetricValue);
-							}	
-							
+							}
+
 							tempMetricName = "";
 							tempMetricValue = "";
 							prevConcatIndex = -1;
 						}
 					}
 					
-					if(onceTimes) {
+					//if(onceTimes) {
 						if(value2save.get(sourceNimsoft) != null && value2save.get(sourceNimsoft) != null) {
 							for(String val : valuesToSave){
 								if(value2save.get(val) != null) {
-									RemoteDevice rd = GenerateRemoteDevice(value2save.get("hostname"), value2save.get("ipAddress"));
-							        ConfigurationItem ConfItem = new ConfigurationItem("1.90", "Availability", rd);
+									result.add(value2save.get(sourceNimsoft)+"|"+value2save.get(targetNimsoft)+"|"+val+"|"+value2save.get(val));
+									//System.out.println(value2save.get(sourceNimsoft)+"|"+value2save.get(targetNimsoft)+"|"+val+"|"+value2save.get(val));
+									writer.write(value2save.get(sourceNimsoft)+"|"+value2save.get(targetNimsoft)+"|"+val+"|"+value2save.get(val)+"\n");
+									//RemoteDevice rd = GenerateRemoteDevice(value2save.get("hostname"), value2save.get("ipAddress"));
+							        //ConfigurationItem ConfItem = new ConfigurationItem("1.90", "Availability", rd);
 									//System.out.println("QOS_"+val);
-									NimQoS nimQos = new NimQoS(ConfItem, "1.90:1", val, true);
-					                nimQos.setSource(value2save.get(sourceNimsoft));
-				                    nimQos.setTarget(value2save.get(targetNimsoft));
-				                    nimQos.setValue(Integer.parseInt(value2save.get(val)));
-				                    nimQos.send();
-				                    nimQos.close();
+									//NimQoS nimQos = new NimQoS(ConfItem, "1.90:1", val, true);
+					                //nimQos.setSource(value2save.get(sourceNimsoft));
+				                    //nimQos.setTarget(value2save.get(targetNimsoft));
+				                    //nimQos.setValue(Integer.parseInt(value2save.get(val)));
+				                    //nimQos.send();
+				                    //nimQos.close();
 								}
 							}
 							
 						}
 						onceTimes = false;
-					}
+					//}
 					
 				}
 				pdu.clear();
 				pdu.setType(PDU.GET);
 			}
 			writer.close();
-			result = true;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -182,16 +185,16 @@ public class SimpleTableViews {
 		return result;
 	}
 	
-	public RemoteDevice GenerateRemoteDevice(String hostname, String ipAddress) {
-        HashMap<String, String> attrs = new HashMap<>();
-        attrs.put(RemoteDevice.DEVICE_DEDICATED_ATTR_KEY, "Host");
-        attrs.put(RemoteDevice.HOST_NAME_KEY, hostname);
-        attrs.put(RemoteDevice.IP_KEY, ipAddress);
-        RemoteDevice rd = new RemoteDevice(hostname, ipAddress);
-        rd.addAttributes(attrs);
-        return rd;
-    }
-	
+//	public RemoteDevice GenerateRemoteDevice(String hostname, String ipAddress) {
+//        HashMap<String, String> attrs = new HashMap<>();
+//        attrs.put(RemoteDevice.DEVICE_DEDICATED_ATTR_KEY, "Host");
+//        attrs.put(RemoteDevice.HOST_NAME_KEY, hostname);
+//        attrs.put(RemoteDevice.IP_KEY, ipAddress);
+//        RemoteDevice rd = new RemoteDevice(hostname, ipAddress);
+//        rd.addAttributes(attrs);
+//        return rd;
+//    }
+
 	/***
 	 * @param target
 	 * @param targetOid
@@ -280,7 +283,9 @@ public class SimpleTableViews {
 		return target;
 	}
 	
-	public boolean checkSnmpTableView(InitConfiguration initConfig) {
+	public List<String> checkSnmpTableView(InitConfiguration initConfig) {
+		List<String> result = new ArrayList<String>();
+		List<String> resulttmp = new ArrayList<String>();
 		try {
 			//System.out.println("Process Start");
 			CommunityTarget targets = new CommunityTarget();
@@ -297,17 +302,18 @@ public class SimpleTableViews {
 							hostname = "unknown";
 						}
 						targets = getTarget(ip, "161");
-						insertDb(targets, ip, hostname, initConfig.getIpOidMap().get(ip), initConfig.getOidDetailMap(), 
+						resulttmp = insertDb(targets, ip, hostname, initConfig.getIpOidMap().get(ip), initConfig.getOidDetailMap(),
 								initConfig.getIpConcatMetricMap().get(ip), initConfig.getIpSourceMap().get(ip), 
 								initConfig.getIpTargetMap().get(ip), initConfig.getIpValuesMap().get(ip));
+						result.addAll(resulttmp);
 					}
 				}
 			}
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return false;
+			return result;
 		}
-		return true;
+		return result;
 	}
 }
